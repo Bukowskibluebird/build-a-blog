@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Build a Blog</h1>
+<!-- <p>If you don't have an account, you may <a href="/register">register</a> for one</p> -->
+<form action="/blog" method="get">
+    
+</form>
+
+<hr />
+
+{% if entries|length == 0 %}
+<p>No entries yet</p>
+{% else %}
+
+    <ul>
+        {% for entry in entries %}
+        <li>{{entry.title}}
+
+            <br>
+
+            {{entry.body}}
+
+        </li>
+        {% endfor %}
+    </ul>
+
+{% endif %}
+
+<hr />
+
+
+
+
+
+{% endblock %}
