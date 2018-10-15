@@ -4,6 +4,7 @@
 <h1>Build a Blog</h1>
 <!-- <p>If you don't have an account, you may <a href="/register">register</a> for one</p> -->
 <form action="/blog" method="get">
+
     
 </form>
 
@@ -15,7 +16,8 @@
 
     <ul>
         {% for entry in entries %}
-        <li>{{entry.title}}
+        <input type="hidden" name="id" value="{{entry.id}}" />
+        <li><a href="http://127.0.0.1:5000/blog?id={{entry.id}}">{{entry.title}}</a>
 
             <br>
 

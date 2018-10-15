@@ -60,7 +60,29 @@ class Blog(db.Model):
 @app.route('/blog')
 def main_blog():
     posts = Blog.query.all() 
-    return render_template('blog.html', entries=posts)
+    val = request.args.get('id')
+    try:
+        if val.isdigit() == True:
+            title = Blog.query.filter_by(id=val).first()
+            body = Blog.query.filter_by(id=val).first()
+            return render_template('register.html', title=title, body=body)
+    except:
+
+        return render_template('blog.html', entries=posts)
+
+
+    
+
+        
+@app.route('/blog?id={{entry.id}}')
+def bpost_page():
+    info = Blog.query.filter_by(id='{{entry.id}}').first()
+    t = info.title
+    b = info.body
+
+    return render_template('register.html', t=t, b=b)
+
+
 
 
 def blank_title(title):
@@ -87,10 +109,7 @@ def blank_body(body):
 #        tasks=tasks, completed_tasks=completed_tasks)
 
 
-@app.route('/blog?id={{id}}')
-def bpost_page():
-    t = request.args.get('title')
-    b = request.args.get('body')
+
 
 
 
@@ -117,7 +136,7 @@ def new_post():
                 
             entries = Blog.query.all()    
 
-            return render_template('blog.html', entries=entries)   
+            return redirect('/blog?id={{entry.id}}')   
 
         else:
             return render_template('newpost.html', title_error=title_error, body_error=body_error)
@@ -139,7 +158,7 @@ def new_post():
         #if user and user.password == password:
         #    session['email'] = email
         #    flash("Logged in")
-        #    return redirect('/')
+        #    return redirect('/')redirect
         #else:
          #   flash('User password incorrect, or user does not exist', 'error')
 
