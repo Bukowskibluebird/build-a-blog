@@ -186,3 +186,15 @@ if val.isdigit():
     t = Blog.query.filter_by(id=val).first()
     b = Blog.query.filter_by(id=val).first()
     return render_template('register.html', t=t, b=b)
+
+
+
+
+
+    @app.route('/blog?id={{entry.id}}')
+    def bpost_page():
+        info = Blog.query.filter_by(id='{{entry.id}}').first()
+        t = info.title
+        b = info.body
+    
+        return render_template('register.html', t=t, b=b)

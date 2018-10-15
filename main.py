@@ -63,26 +63,21 @@ def main_blog():
     val = request.args.get('id')
     try:
         if val.isdigit() == True:
-            title = Blog.query.filter_by(id=val).first()
-            body = Blog.query.filter_by(id=val).first()
-            return render_template('register.html', title=title, body=body)
+            entry = Blog.query.filter_by(id=val).first()
+            return render_template('register.html', entry=entry)
     except:
 
         return render_template('blog.html', entries=posts)
 
 
+
+#@app.route('/blog?id={{entry.id}}')
+#def bpost_page():
+    #info = Blog.query.filter_by(id='{{entry.id}}').first()
+    #t = info.title
+    #b = info.body
     
-
-        
-@app.route('/blog?id={{entry.id}}')
-def bpost_page():
-    info = Blog.query.filter_by(id='{{entry.id}}').first()
-    t = info.title
-    b = info.body
-
-    return render_template('register.html', t=t, b=b)
-
-
+    #return render_template('register.html', entry=entry)   
 
 
 def blank_title(title):
@@ -119,7 +114,7 @@ def new_post():
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
-        entries = Blog(title, body)
+        entry = Blog(title, body)
 
         title_error = ''
         body_error = ''
@@ -131,12 +126,16 @@ def new_post():
             body_error = "Need blog body!"
 
         if not title_error and not body_error:
-            db.session.add(entries)
+            db.session.add(entry)
             db.session.commit()
-                
-            entries = Blog.query.all()    
+            
 
-            return redirect('/blog?id={{entry.id}}')   
+            x = str(entry.id)
+            
+            
+
+            return redirect('/blog?id=' + x)
+
 
         else:
             return render_template('newpost.html', title_error=title_error, body_error=body_error)
