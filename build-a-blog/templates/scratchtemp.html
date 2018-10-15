@@ -1,0 +1,200 @@
+
+
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        <ul>
+        {% for category, message in messages %}
+            <li class="{{category}}">{{message}}</li>
+        {% endfor %}
+        </ul>
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+
+
+
+
+    <p>If you don't have an account, you may <a href="/register">register</a> for one</p>
+
+
+
+
+
+
+
+
+
+    {% if tasks|length == 0 %}
+    <p>No tasks yet</p>
+    {% else %}
+
+        <ul>
+            {% for task in tasks %}
+            <li>{{task.name}}
+                <form method="POST" action="/delete-task" style="display:inline-block;">
+                    <input type="hidden" name="task-id" value="{{task.id}}" />
+                    <input type="submit" value="Done!" />
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+
+    <hr />
+
+    <h2>Completed</h2>
+
+    <ul>
+        {% for task in completed_tasks %}
+        <li>{{task.name}}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Completed</h2>
+
+    <ul>
+        {% for task in completed_tasks %}
+        <li>{{task.name}}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+
+
+
+
+
+
+<form method="POST" action="/delete-task" style="display:inline-block;">
+    <input type="hidden" name="task-id" value="{{task.id}}" />
+    <input type="submit" value="Done!" />
+</form>
+
+
+
+
+
+
+<table>
+        <tr>
+            <td><label for="email">Email</label></td>
+            <td>
+                <input name="email" type="email" value="{{ email }}">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="password">Password</label></td>
+            <td>
+                <input name="password" type="password">
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Login">
+
+
+
+
+
+
+
+    <table>
+        <tr>
+            <td><label for="email">Email</label></td>
+            <td>
+                <input name="email" type="email" value="{{ email }}">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="password">Password</label></td>
+            <td>
+                <input name="password" type="password">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="verify">Verify Password</label></td>
+            <td>
+                <input name="verify" type="password">
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Register">
+</form>
+
+
+
+
+t = request.args.get('title')
+    b = request.args.get('body')
+
+    entry = Blog.query.get({{id}})
+
+
+
+
+
+
+
+    @app.route('/blog')
+    def main_blog():
+        posts = Blog.query.all() 
+        
+        pk = request.args.get('{{entry.id}}')
+        pk = Blog.query.get({{entry.id}})
+        if pk == "":
+            return render_template('blog.html', entries=posts)
+    
+        else:
+            t = Blog.query.filter_by(id=pk).first()
+            b = Blog.query.filter_by(id=pk).first()
+            return render_template('register.html', t=t, b=b)
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/blog')
+def main_blog():
+    posts = Blog.query.all() 
+    render_template('blog.html', entries=posts)
+             
+    pk = Blog.query.get({{entry.id}})
+    if pk == "":
+         return render_template('blog.html', entries=posts)
+            
+    else:
+        t = Blog.query.filter_by(id=pk).first()
+        b = Blog.query.filter_by(id=pk).first()
+        return render_template('register.html', t=t, b=b)
+
+
+
+
+    
+
+def single_post():
+val = request.args.get('id')
+if val.isdigit():
+    t = Blog.query.filter_by(id=val).first()
+    b = Blog.query.filter_by(id=val).first()
+    return render_template('register.html', t=t, b=b)
+
+
+
+
+
+    @app.route('/blog?id={{entry.id}}')
+    def bpost_page():
+        info = Blog.query.filter_by(id='{{entry.id}}').first()
+        t = info.title
+        b = info.body
+    
+        return render_template('register.html', t=t, b=b)
